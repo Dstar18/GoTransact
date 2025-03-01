@@ -1,0 +1,37 @@
+services:
+  # Service untuk PostgreSQL
+  postgres:
+    image: postgres:13
+    container_name: GoTransact-postgres-db
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # Service untuk Adminer (web interface untuk PostgreSQL)
+  adminer:
+    image: adminer
+    container_name: adminer
+    ports:
+      - "8081:8080"
+
+# Service untuk aplikasi Golang
+  app:
+    build: .
+    container_name: GoTransact
+    env_file:
+      - .env
+    command: ["./GoTransact", "--host=postgres", "--port=5432"]
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:
