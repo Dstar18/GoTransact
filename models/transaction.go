@@ -1,6 +1,10 @@
 package models
 
-import "github.com/shopspring/decimal"
+import (
+	"time"
+
+	"github.com/shopspring/decimal"
+)
 
 type Transaction struct {
 	ID              uint            `gorm:"primaryKey" json:"id"`
@@ -13,5 +17,5 @@ type Transaction struct {
 	RRN             string          `gorm:"type:varchar(50);not null" json:"rrn"`
 	BillNumber      string          `gorm:"type:varchar(50);not null" json:"bill_number"`
 	CurrencyCode    string          `gorm:"type:varchar(50);not null" json:"currency_code"`
-	CreatedAt       string          `gorm:"type:timestamptz;default:null" json:"created_at"`
+	CreatedAt       time.Time       `gorm:"type:timestamp;default:null" json:"created_at"`
 }
